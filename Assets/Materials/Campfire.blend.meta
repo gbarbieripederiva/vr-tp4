@@ -1,12 +1,22 @@
 fileFormatVersion: 2
 guid: 336f84367d610a3479fe437a6c70bb03
 ModelImporter:
-  serializedVersion: 21100
+  serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: -623603649343465320
     second: Scene
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fire
+    second: {fileID: 2100000, guid: 107a3ecf8e53661418067b01a94ef6fc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fire1
+    second: {fileID: 2100000, guid: d2b7244db3012864fbce44ee7c7742cc, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
