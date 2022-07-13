@@ -6,6 +6,7 @@ TagManager:
   tags:
   - WateringCan
   - Door
+  - WateringCanFaucetCollider
   layers:
   - Default
   - TransparentFX

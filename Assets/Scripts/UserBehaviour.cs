@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,14 @@ public class UserBehaviour : MonoBehaviour
 {
     public float speed = 2.5f;
     public float range = 2.5f;
+    public float wateringCanRotationSpeed = 2.5f;
     
     private GameObject _wateringCan;
     private Rigidbody _rigidbody;
     private AudioSource _footstepAudioSource;
     private Collider _raycastCollider;
     private bool _grabbingWateringCan;
+    private float _wateringCanYAngle;
 
     void Start()
     {
@@ -60,16 +63,22 @@ public class UserBehaviour : MonoBehaviour
         {
             Walk(myPos, x, z);
         }
-        else
+        else if (_footstepAudioSource.isPlaying)
         {
-            if (_footstepAudioSource.isPlaying)
-            {
-                _footstepAudioSource.Pause();
-            }
+            _footstepAudioSource.Pause();
         }
 
         if (_grabbingWateringCan)
         {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                RotateWateringCan(-wateringCanRotationSpeed);
+            }
+            else if (Input.GetKey(KeyCode.E))
+            {
+                RotateWateringCan(wateringCanRotationSpeed);
+            }
+            
             MoveWateringCan(myPos);
         }
     }
@@ -98,11 +107,30 @@ public class UserBehaviour : MonoBehaviour
         }
     }
 
+    void RotateWateringCan(float x)
+    {
+        if (_wateringCanYAngle + x < 45)
+        {
+            if (_wateringCanYAngle + x > -60)
+            {
+                _wateringCanYAngle += x;
+            }
+            else
+            {
+                _wateringCanYAngle = -60;
+            }
+        }
+        else
+        {
+            _wateringCanYAngle = 45;
+        }
+    }
+
     void MoveWateringCan(Vector3 myPos)
     {
-        _wateringCan.transform.position = myPos + new Vector3(0.7f, 0.4f, 1f);
+        _wateringCan.transform.position = myPos + new Vector3(0.7f, 0.2f, 2f);
         var myRot = transform.eulerAngles;
-        _wateringCan.transform.eulerAngles = new Vector3(-90, 0, myRot.z + 90);
+        _wateringCan.transform.localEulerAngles = new Vector3(0,  _wateringCanYAngle, myRot.z);
     }
 
     void Interact()
@@ -112,7 +140,7 @@ public class UserBehaviour : MonoBehaviour
             return;
         }
         
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             if (_grabbingWateringCan)
             {
@@ -163,10 +191,7 @@ public class UserBehaviour : MonoBehaviour
         var wateringCanRigidBody = _wateringCan.GetComponent<Rigidbody>();
         wateringCanRigidBody.isKinematic = true;
         wateringCanRigidBody.useGravity = false;
-
-        var wateringCanMeshCollider = _wateringCan.GetComponent<MeshCollider>();
-        var scale = wateringCanMeshCollider.transform.lossyScale;
-        Debug.Log(scale);
+        _wateringCanYAngle = 0;
     }
 
     void KnockDoor()
