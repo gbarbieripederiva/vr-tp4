@@ -161,6 +161,10 @@ public class UserBehaviour : MonoBehaviour
         var wateringCanRigidBody = _wateringCan.GetComponent<Rigidbody>();
         wateringCanRigidBody.isKinematic = true;
         wateringCanRigidBody.useGravity = false;
+
+        var wateringCanMeshCollider = _wateringCan.GetComponent<MeshCollider>();
+        var scale = wateringCanMeshCollider.transform.lossyScale;
+        Debug.Log(scale);
     }
 
     void KnockDoor()
