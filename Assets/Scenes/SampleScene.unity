@@ -10405,12 +10405,13 @@ GameObject:
   - component: {fileID: 7623545439652325410}
   - component: {fileID: 7623545439652325409}
   - component: {fileID: 7623545439652325411}
+  - component: {fileID: 7623545439652325412}
   m_Layer: 3
-  m_Name: Cube.005
+  m_Name: Door
   m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!114 &7623545439652325407
 MonoBehaviour:
@@ -10584,6 +10585,25 @@ MonoBehaviour:
         z: -388.3777
       radius: 1000
   mProbeBatchesUsed: []
+--- !u!95 &7623545439652325412
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7623545439652325406}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b2456e9e084001d48bb4c52587c3bd34, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!23 &7762067043663865584
 MeshRenderer:
   m_ObjectHideFlags: 0

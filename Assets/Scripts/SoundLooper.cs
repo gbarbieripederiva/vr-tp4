@@ -27,7 +27,7 @@ public class SoundLooper : MonoBehaviour
         }
 
         _playing = true;
-        Invoke("PlaySound", Random.Range(everySeconds - dispersionTimeRange, everySeconds + dispersionTimeRange));
+        Invoke(nameof(PlaySound), Random.Range(everySeconds - dispersionTimeRange, everySeconds + dispersionTimeRange));
     }
 
     void PlaySound()
