@@ -31,7 +31,6 @@ public class UserBehaviour : MonoBehaviour
     void Move()
     {
         float x, z;
-        
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             z = 1;
@@ -77,9 +76,12 @@ public class UserBehaviour : MonoBehaviour
 
     void Walk(Vector3 myPos, float x, float z)
     {
-        var rot = Camera.main.transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
-        var diff = new Vector3(Mathf.Cos(rot) * (x) + Mathf.Sin(rot) * z, 0, Mathf.Sin(rot) * (x) + Mathf.Cos(rot) * z).normalized * speed * Time.deltaTime;
-        var newPos = myPos + diff;
+        float facing = Camera.main.transform.eulerAngles.y;
+        float horizontalMovement = Input.GetAxisRaw("Horizontal");
+        float verticalMovement = Input.GetAxisRaw("Vertical");
+        Vector3 myInputs = new Vector3(horizontalMovement, 0, verticalMovement);
+        Vector3 myTurnedInputs = Quaternion.Euler(0, facing, 0) * myInputs;
+        var newPos = myPos + myTurnedInputs * speed * Time.deltaTime;
         if (newPos.y < -0.3f)
         {
             newPos.y = -0.3f;
