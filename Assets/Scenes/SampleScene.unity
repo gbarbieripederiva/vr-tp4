@@ -5338,7 +5338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2515721357223805262, guid: df070b7b209508744b158d5c6bf4f9e5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 393.075
+      value: 393.279
       objectReference: {fileID: 0}
     - target: {fileID: 2515721357223805262, guid: df070b7b209508744b158d5c6bf4f9e5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5346,7 +5346,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2515721357223805262, guid: df070b7b209508744b158d5c6bf4f9e5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 391.39465
+      value: 391.161
       objectReference: {fileID: 0}
     - target: {fileID: 2515721357223805262, guid: df070b7b209508744b158d5c6bf4f9e5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7344,6 +7344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 8325968578243120793, guid: 6d1b2724b8253a1469114eeb93d6b25e, type: 3}
+  coinSpawnPoint: {x: 394.8061, y: 1.1, z: 390.9682}
 --- !u!65 &1961540692
 BoxCollider:
   m_ObjectHideFlags: 0
