@@ -20,7 +20,6 @@ public class WaterCan : MonoBehaviour
         }
         
         var y = transform.localEulerAngles.y;
-        Debug.Log(y);
         if (y > 300)
         {
             // A number between 0 - 45
