@@ -5,6 +5,7 @@ using UnityEngine;
 public class woodenBox : MonoBehaviour
 {
     public GameObject coinPrefab;
+    public Vector3 coinSpawnPoint =  new Vector3(394.8061f,1.1f,390.9682f);
     private void OnTriggerEnter(Collider other)
     {
         // if (other.gameObject.CompareTag("WateringCanFaucetCollider"))
@@ -17,7 +18,7 @@ public class woodenBox : MonoBehaviour
     private void _EliminateVegetableAndGenerateCoin(GameObject other)
     {
         Destroy(other);
-        var coinObj = Instantiate(this.coinPrefab, new Vector3(394.8061f,1.1f,390.9682f), Quaternion.identity);
+        var coinObj = Instantiate(this.coinPrefab, this.coinSpawnPoint, Quaternion.identity);
     }
 
     void Start()
