@@ -17,7 +17,7 @@ public class Faucet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("WateringCanFaucetCollider"))
         {
-            _openFaucet(other.gameObject.GetComponentInParent<WaterCan>());
+            _openFaucet(other.gameObject.GetComponent<WaterCan>());
         }
     }
 
@@ -25,7 +25,7 @@ public class Faucet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("WateringCanFaucetCollider"))
         {
-            _fillWateringCan(other.gameObject.GetComponentInParent<WaterCan>());
+            _fillWateringCan(other.gameObject.GetComponent<WaterCan>());
         }   
     }
 

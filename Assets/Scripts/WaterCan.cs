@@ -6,20 +6,12 @@ using UnityEngine.UI;
 
 public class WaterCan : MonoBehaviour
 {
-    public Image levelImage;
     public float dropEverySeconds = 0.3f;
     public float dropAmount = 0.05f;
     
-    private GameObject _wateringCan;
     private float _level;
     private float _lastDropped;
-
-    public void Start()
-    {
-        _wateringCan = GameObject.FindWithTag("WateringCan");
-        _updateBar();
-    }
-
+    
     public void Update()
     {
         if (Time.time - _lastDropped < dropEverySeconds)
@@ -27,7 +19,7 @@ public class WaterCan : MonoBehaviour
             return;
         }
         
-        var y = _wateringCan.transform.localEulerAngles.y;
+        var y = transform.localEulerAngles.y;
         Debug.Log(y);
         if (y > 300)
         {
@@ -72,7 +64,6 @@ public class WaterCan : MonoBehaviour
         }
 
         _level = Math.Min(1, _level + amount);
-        _updateBar();
         
         return true;
     }
@@ -85,13 +76,7 @@ public class WaterCan : MonoBehaviour
         }
 
         _level = Math.Max(0, _level - amount);
-        _updateBar();
         
         return true;
-    }
-
-    private void _updateBar()
-    {
-        levelImage.fillAmount = _level;
     }
 }
