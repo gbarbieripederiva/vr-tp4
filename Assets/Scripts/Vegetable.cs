@@ -17,14 +17,12 @@ public class Vegetable : MonoBehaviour
     public float finalYDuringGrowth;
     public float finalY;
 
+    private bool _isPlanted;
     private float _maxWater;
     private float _currentY;
 
     void Start()
     {
-        _maxWater = waterNeeded;
-        _setY();
-
         if (finalObject != null)
         {
             initObject.SetActive(true);
@@ -32,8 +30,25 @@ public class Vegetable : MonoBehaviour
         }
     }
 
+    public bool IsPlanted()
+    {
+        return _isPlanted;
+    }
+
+    public void Plant()
+    {
+        _maxWater = waterNeeded;
+        _setY();
+        _isPlanted = true;
+    }
+
     private void Update()
     {
+        if (!IsPlanted())
+        {
+            return;
+        }
+        
         if (HasGrown() && Math.Abs(_currentY - finalY) > 0.0001f)
         {
             var transform1 = transform;

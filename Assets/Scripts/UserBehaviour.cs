@@ -11,6 +11,7 @@ public class UserBehaviour : MonoBehaviour
     public float wateringCanRotationSpeed = 2.5f;
     
     private GameObject _wateringCan;
+    private GameObject _grabbedCoin;
     private Rigidbody _rigidbody;
     private AudioSource _footstepAudioSource;
     private Collider _raycastCollider;
@@ -135,7 +136,7 @@ public class UserBehaviour : MonoBehaviour
 
     void Interact()
     {
-        if (_raycastCollider == null && !_grabbingWateringCan)
+        if (_raycastCollider == null && !_grabbingWateringCan && _grabbedCoin == null)
         {
             return;
         }
@@ -146,6 +147,11 @@ public class UserBehaviour : MonoBehaviour
             {
                 DropWateringCan();
                 return;
+            } 
+            if (_grabbedCoin != null)
+            {
+                DropCoin();
+                return;
             }
 
             if (_raycastCollider.CompareTag("WateringCan"))
@@ -154,6 +160,10 @@ public class UserBehaviour : MonoBehaviour
             } else if (_raycastCollider.CompareTag("Door"))
             {
                 KnockDoor();
+            } else if (_raycastCollider.CompareTag("coin"))
+            {
+                _grabbedCoin = _raycastCollider.gameObject;
+                GrabCoin();
             }
         }
     }
@@ -192,6 +202,21 @@ public class UserBehaviour : MonoBehaviour
         wateringCanRigidBody.isKinematic = true;
         wateringCanRigidBody.useGravity = false;
         _wateringCanYAngle = 0;
+    }
+
+    void GrabCoin()
+    {
+        var coinRigidBody = _grabbedCoin.GetComponent<Rigidbody>();
+        coinRigidBody.isKinematic = true;
+        coinRigidBody.useGravity = false;
+    }
+
+    void DropCoin()
+    {
+        var wateringCanRigidBody = _grabbedCoin.GetComponent<Rigidbody>();
+        wateringCanRigidBody.isKinematic = false;
+        wateringCanRigidBody.useGravity = true;
+        _grabbedCoin = null;
     }
 
     void KnockDoor()
