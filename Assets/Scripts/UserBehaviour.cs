@@ -7,7 +7,7 @@ using UnityEngine;
 public class UserBehaviour : MonoBehaviour
 {
     public float speed = 2.5f;
-    public float range = 2.5f;
+    public float range = 6f;
     public float wateringCanRotationSpeed = 2.5f;
 
     private List<GameObject> _currentPlantables = new List<GameObject>();
@@ -141,21 +141,22 @@ public class UserBehaviour : MonoBehaviour
 
     void MoveWateringCan(Vector3 myPos)
     {
-        _wateringCan.transform.position = myPos + new Vector3(0.7f, 0.2f, 2f);
+        _wateringCan.transform.position = myPos + new Vector3(0.7f, 0.8f, 2f);
         var myRot = transform.eulerAngles;
         _wateringCan.transform.localEulerAngles = new Vector3(0,  _wateringCanYAngle, myRot.z);
+        _wateringCan.transform.Rotate(new Vector3(-90f,0f,0f), Space.World);
     }
 
     void MoveCoin(Vector3 myPos)
     {
-        _grabbedCoin.transform.position = myPos + new Vector3(0.7f, 0.2f, 2f);
+        _grabbedCoin.transform.position = myPos + new Vector3(0.7f, 0.8f, 2f);
         var myRot = transform.eulerAngles;
         _grabbedCoin.transform.localEulerAngles = new Vector3(0,  0, myRot.z);
     }
 
     void MoveVegetable(Vector3 myPos)
     {
-        _grabbedVegetable.transform.position = myPos + new Vector3(0.7f, 0.2f, 2f);
+        _grabbedVegetable.transform.position = myPos + new Vector3(0.7f, 0.8f, 2f);
         var myRot = transform.eulerAngles;
         _grabbedVegetable.transform.localEulerAngles = new Vector3(0,  0, myRot.z);
     }
