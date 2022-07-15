@@ -16,8 +16,10 @@ public class Vegetable : MonoBehaviour
     public float initY;
     public float finalYDuringGrowth;
     public float finalY;
+    public int rewardWhenGrown;
 
     private bool _isPlanted;
+    private bool _hasBeenPlanted;
     private float _maxWater;
     private float _currentY;
 
@@ -35,11 +37,31 @@ public class Vegetable : MonoBehaviour
         return _isPlanted;
     }
 
+    public bool HasBeenPlanted()
+    {
+        return _hasBeenPlanted;
+    }
+
+    public int GetReward()
+    {
+        if (!HasGrown())
+        {
+            return 1;
+        }
+
+        return rewardWhenGrown;
+    }
+
     public void Plant()
     {
         _maxWater = waterNeeded;
         _setY();
-        _isPlanted = true;
+        _hasBeenPlanted = _isPlanted = true;
+    }
+
+    public void UnPlant()
+    {
+        _isPlanted = false;
     }
 
     private void Update()

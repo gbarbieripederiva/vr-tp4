@@ -5,29 +5,27 @@ using UnityEngine;
 public class woodenBox : MonoBehaviour
 {
     public GameObject coinPrefab;
-    public Vector3 coinSpawnPoint =  new Vector3(394.8061f,1.1f,390.9682f);
+    public Vector3 coinSpawnPoint =  new Vector3(394.8061f,1.3f,390.9682f);
+
+    private Vector3 randomPosition =  new Vector3(1f,0.2f,1f);
+    
     private void OnTriggerEnter(Collider other)
     {
         // if (other.gameObject.CompareTag("WateringCanFaucetCollider"))
         if(true)
         {
-            _EliminateVegetableAndGenerateCoin(other.gameObject);
+            _EliminateVegetableAndGenerateCoins(other.gameObject);
         }
     }
 
-    private void _EliminateVegetableAndGenerateCoin(GameObject other)
+    private void _EliminateVegetableAndGenerateCoins(GameObject other)
     {
+        int reward = other.GetComponent<Vegetable>().GetReward();
         Destroy(other);
-        var coinObj = Instantiate(this.coinPrefab, this.coinSpawnPoint, Quaternion.identity);
-    }
-
-    void Start()
-    {
         
-    }
-
-    void Update()
-    {
-        
+        // TODO: Ver si hay que poner un delay, que onda las superposiciones de monedas, etc
+        for (int i = 0; i < reward; i++) {
+            Instantiate(coinPrefab, coinSpawnPoint + randomPosition * Random.Range(-1f, 1f), Quaternion.identity);
+        }
     }
 }

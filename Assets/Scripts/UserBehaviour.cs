@@ -12,6 +12,7 @@ public class UserBehaviour : MonoBehaviour
     
     private GameObject _wateringCan;
     private GameObject _grabbedCoin;
+    private GameObject _grabbedVegetable;
     private Rigidbody _rigidbody;
     private AudioSource _footstepAudioSource;
     private Collider _raycastCollider;
@@ -82,6 +83,16 @@ public class UserBehaviour : MonoBehaviour
             
             MoveWateringCan(myPos);
         }
+
+        if (_grabbedCoin != null)
+        {
+            MoveCoin(myPos);
+        }
+
+        if (_grabbedVegetable != null)
+        {
+            MoveVegetable(myPos);
+        }
     }
 
     void Walk(Vector3 myPos, float x, float z)
@@ -134,11 +145,34 @@ public class UserBehaviour : MonoBehaviour
         _wateringCan.transform.localEulerAngles = new Vector3(0,  _wateringCanYAngle, myRot.z);
     }
 
+    void MoveCoin(Vector3 myPos)
+    {
+        _grabbedCoin.transform.position = myPos + new Vector3(0.7f, 0.2f, 2f);
+        var myRot = transform.eulerAngles;
+        _grabbedCoin.transform.localEulerAngles = new Vector3(0,  0, myRot.z);
+    }
+
+    void MoveVegetable(Vector3 myPos)
+    {
+        _grabbedVegetable.transform.position = myPos + new Vector3(0.7f, 0.2f, 2f);
+        var myRot = transform.eulerAngles;
+        _grabbedVegetable.transform.localEulerAngles = new Vector3(0,  0, myRot.z);
+    }
+
     void Interact()
     {
         if (_raycastCollider == null && !_grabbingWateringCan && _grabbedCoin == null)
         {
             return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (_grabbedVegetable != null && !_grabbedVegetable.GetComponent<Vegetable>().HasBeenPlanted())
+            {
+                PlantVegetable();
+                return;
+            }
         }
         
         if (Input.GetKeyDown(KeyCode.F))
@@ -153,6 +187,11 @@ public class UserBehaviour : MonoBehaviour
                 DropCoin();
                 return;
             }
+            if (_grabbedVegetable != null)
+            {
+                DropVegetable();
+                return;
+            }
 
             if (_raycastCollider.CompareTag("WateringCan"))
             {
@@ -164,6 +203,18 @@ public class UserBehaviour : MonoBehaviour
             {
                 _grabbedCoin = _raycastCollider.gameObject;
                 GrabCoin();
+            } else if (_raycastCollider.tag.StartsWith("Vegetable"))
+            {
+                _grabbedVegetable = _raycastCollider.gameObject;
+                var veg = _grabbedVegetable.GetComponent<Vegetable>();
+                if (!veg.IsPlanted())
+                {
+                    GrabTableVegetable();
+                }
+                else
+                {
+                    GrabPlantedVegetable();
+                }
             }
         }
     }
@@ -217,6 +268,41 @@ public class UserBehaviour : MonoBehaviour
         wateringCanRigidBody.isKinematic = false;
         wateringCanRigidBody.useGravity = true;
         _grabbedCoin = null;
+    }
+
+    void GrabTableVegetable()
+    {
+        var vegetable = _grabbedVegetable.GetComponent<Rigidbody>();
+        vegetable.isKinematic = true;
+        vegetable.useGravity = false;
+    }
+
+    void PlantVegetable()
+    {
+        var vegetable = _grabbedVegetable.GetComponent<Rigidbody>();
+        vegetable.isKinematic = false;
+        vegetable.useGravity = true;
+        // Implementar logica de plantacion en el terrain.
+        _grabbedVegetable.GetComponent<Vegetable>().Plant();
+        _grabbedVegetable = null;
+    }
+
+    void GrabPlantedVegetable()
+    {
+        var vegetable = _grabbedVegetable.GetComponent<Rigidbody>();
+        vegetable.isKinematic = true;
+        vegetable.useGravity = false;
+        // Implementar logica de sacar del terrain.
+        _grabbedVegetable.GetComponent<Vegetable>().UnPlant();
+        _grabbedVegetable = null;
+    }
+
+    void DropVegetable()
+    {
+        var vegetable = _grabbedVegetable.GetComponent<Rigidbody>();
+        vegetable.isKinematic = false;
+        vegetable.useGravity = true;
+        _grabbedVegetable = null;
     }
 
     void KnockDoor()
