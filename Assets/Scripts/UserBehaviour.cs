@@ -221,10 +221,11 @@ public class UserBehaviour : MonoBehaviour
 
     void UpdateRaycast()
     {
-        Vector3 direction = Vector3.forward;
+        Vector3 direction = Camera.main.transform.forward;
         Transform transform1;
-        Ray theRay = new Ray(transform.position  + new Vector3(0, 0.5f, 0), (transform1 = transform).TransformDirection(direction * range));
-        Debug.DrawRay(transform1.position + new Vector3(0, 0.5f, 0), transform.TransformDirection(direction * range));
+        // Ray theRay = new Ray(Camera.main.transform.position + new Vector3(0f,0.5f,0f), (transform1 = Camera.main.transform).TransformDirection(direction * range));
+        // Debug.DrawRay(transform1.position, Camera.main.transform.TransformDirection(direction * range),Color.white,10);
+        Ray theRay =  Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
         if (Physics.Raycast(theRay, out RaycastHit hit, range))
         {

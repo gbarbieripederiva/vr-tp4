@@ -11,8 +11,7 @@ public class woodenBox : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        // if (other.gameObject.CompareTag("WateringCanFaucetCollider"))
-        if(true)
+        if (other.gameObject.tag.StartsWith("Vegetable"))
         {
             _EliminateVegetableAndGenerateCoins(other.gameObject);
         }
