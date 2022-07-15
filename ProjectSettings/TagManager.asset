@@ -12,6 +12,8 @@ TagManager:
   - VegetableCarrot
   - VegetableGarlic
   - VegetableCorn
+  - coin
+  - Plantable
   layers:
   - Default
   - TransparentFX

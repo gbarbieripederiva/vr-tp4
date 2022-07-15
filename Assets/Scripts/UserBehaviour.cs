@@ -9,7 +9,8 @@ public class UserBehaviour : MonoBehaviour
     public float speed = 2.5f;
     public float range = 2.5f;
     public float wateringCanRotationSpeed = 2.5f;
-    
+
+    private List<GameObject> _currentPlantables = new List<GameObject>();
     private GameObject _wateringCan;
     private GameObject _grabbedCoin;
     private GameObject _grabbedVegetable;
@@ -168,9 +169,31 @@ public class UserBehaviour : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            if (_grabbedVegetable != null && !_grabbedVegetable.GetComponent<Vegetable>().HasBeenPlanted())
+            if (_grabbedVegetable != null && !_grabbedVegetable.GetComponent<Vegetable>().HasBeenPlanted() && _currentPlantables.Count > 0)
             {
-                PlantVegetable();
+                var plantable = _currentPlantables.First(o =>
+                {
+                    var plantable = o.GetComponent<Plantable>();
+                    return !plantable.IsOccupied();
+                });
+                if (plantable != null)
+                {
+                    PlantVegetable(plantable);
+                }
+                return;
+            }
+            
+            if (_grabbedVegetable == null && _currentPlantables.Count > 0)
+            {
+                var plantable = _currentPlantables.First(o =>
+                {
+                    var plantable = o.GetComponent<Plantable>();
+                    return plantable.IsOccupied();
+                });
+                if (plantable != null)
+                {
+                    GrabPlantedVegetable(plantable);
+                }
                 return;
             }
         }
@@ -210,10 +233,6 @@ public class UserBehaviour : MonoBehaviour
                 if (!veg.IsPlanted())
                 {
                     GrabTableVegetable();
-                }
-                else
-                {
-                    GrabPlantedVegetable();
                 }
             }
         }
@@ -278,24 +297,25 @@ public class UserBehaviour : MonoBehaviour
         vegetable.useGravity = false;
     }
 
-    void PlantVegetable()
-    {
-        var vegetable = _grabbedVegetable.GetComponent<Rigidbody>();
-        vegetable.isKinematic = false;
-        vegetable.useGravity = true;
-        // Implementar logica de plantacion en el terrain.
-        _grabbedVegetable.GetComponent<Vegetable>().Plant();
-        _grabbedVegetable = null;
-    }
-
-    void GrabPlantedVegetable()
+    void PlantVegetable(GameObject plantableObject)
     {
         var vegetable = _grabbedVegetable.GetComponent<Rigidbody>();
         vegetable.isKinematic = true;
         vegetable.useGravity = false;
-        // Implementar logica de sacar del terrain.
-        _grabbedVegetable.GetComponent<Vegetable>().UnPlant();
+
+        var plantable = plantableObject.GetComponent<Plantable>();
+        _grabbedVegetable.GetComponent<Vegetable>().Plant(plantable);
         _grabbedVegetable = null;
+    }
+
+    void GrabPlantedVegetable(GameObject plantable)
+    {
+        plantable.GetComponent<Plantable>().RemovePlant();
+
+        var rb = plantable.GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        rb.useGravity = false;
+        _grabbedVegetable = plantable;
     }
 
     void DropVegetable()
@@ -310,5 +330,21 @@ public class UserBehaviour : MonoBehaviour
     {
         var door = _raycastCollider.gameObject.GetComponent<Door>();
         door.Knock();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Plantable"))
+        {
+            _currentPlantables.Append(other.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Plantable"))
+        {
+            _currentPlantables.Remove(other.gameObject);
+        }
     }
 }

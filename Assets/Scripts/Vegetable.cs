@@ -52,8 +52,9 @@ public class Vegetable : MonoBehaviour
         return rewardWhenGrown;
     }
 
-    public void Plant()
+    public void Plant(Plantable plantable)
     {
+        plantable.SetPlant(this);
         _maxWater = waterNeeded;
         _setY();
         _hasBeenPlanted = _isPlanted = true;
